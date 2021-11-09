@@ -1,6 +1,8 @@
 package io.github.datenmuehle.holiday;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -9,15 +11,50 @@ import java.util.List;
 public class Day
 {
   String name;
-  int day;
-  int month;
+
+  LocalDate date;
 
   final List<Bundesland> bundeslandList;
 
+  /**
+   * Instantiates a new Day.
+   *
+   * @param name Name of day
+   * @param day day of month
+   * @param month month
+   * @param land country where day is a holiday
+   */
   public Day(String name, int day, int month, Bundesland ...land) {
     this.name = name;
-    this.day = day;
-    this.month = month;
+    this.date = LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), month, day);
+    bundeslandList = Arrays.asList(land);
+  }
+
+  /**
+   * Instantiates a new Day.
+   *
+   * @param name Name of day
+   * @param day day of month
+   * @param month month
+   * @param year year
+   * @param land country where day is a holiday
+   */
+  public Day(String name, int day, int month, int year, Bundesland ...land) {
+    this.name = name;
+    this.date = LocalDate.of(year, month, day);
+    bundeslandList = Arrays.asList(land);
+  }
+
+  /**
+   * Instantiates a new Day.
+   *
+   * @param name Name of the Day
+   * @param date the date
+   * @param land country where day is a holiday
+   */
+  public Day(String name, LocalDate date, Bundesland ...land) {
+    this.name = name;
+    this.date = date;
     bundeslandList = Arrays.asList(land);
   }
 
@@ -31,49 +68,22 @@ public class Day
     this.name = name;
   }
 
-  public int getDay()
-  {
-    return day;
-  }
-
-  public void setDay(int day)
-  {
-    this.day = day;
-  }
-
-  public int getMonth()
-  {
-    return month;
-  }
-
-  public void setMonth(int month)
-  {
-    this.month = month;
-  }
-
   public List<Bundesland> getBundeslandList()
   {
     return bundeslandList;
   }
 
+  public LocalDate getDate()
+  {
+    return date;
+  }
+
   public int compareTo(Day o) {
-    int mc = month - o.getMonth();
-
-    if (mc != 0) {
-      return mc;
-    }
-
-    int dc = day - o.getDay();
-
-    if (dc != 0) {
-      return dc;
-    }
-
-    return name.compareTo(o.getName());
+    return date.compareTo(o.getDate());
   }
 
   @Override
   public String toString() {
-    return String.format("%s: %02d.%02d.", name, day, month);
+    return String.format("%s: %02d.%02d.", name, date.getDayOfMonth(), date.getMonth().getValue());
   }
 }

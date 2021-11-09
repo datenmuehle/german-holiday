@@ -2,14 +2,19 @@ package io.github.datenmuehle;
 
 import io.github.datenmuehle.holiday.Holiday;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Main
 {
   public static void main(String[] args) {
-    Holiday holiday = new Holiday();
-    System.out.println(holiday);
 
-    System.out.println("is holiday: " + holiday.isHoliday(new Date()));
+    int year = Calendar.getInstance().get(Calendar.YEAR);
+
+    if (args.length > 0) {
+      year = Integer.parseInt(args[0]);
+    }
+
+    Holiday holiday = new Holiday(year);
+    System.out.println(holiday);
   }
 }
