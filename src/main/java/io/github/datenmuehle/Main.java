@@ -1,6 +1,6 @@
 package io.github.datenmuehle;
 
-import io.github.datenmuehle.holiday.Holiday;
+import io.github.datenmuehle.holiday.Holidays;
 
 import java.util.Calendar;
 
@@ -14,7 +14,7 @@ public class Main
       year = Integer.parseInt(args[0]);
     }
 
-    Holiday holiday = new Holiday(year);
-    System.out.println(holiday);
+    Holidays holidays = new Holidays(year);
+    System.out.println(holidays); // NOSONAR: example code
   }
 }

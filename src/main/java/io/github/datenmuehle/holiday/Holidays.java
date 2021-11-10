@@ -28,14 +28,14 @@ import static io.github.datenmuehle.holiday.Bundesland.DE;
 /**
  * Class to provide a list of german holidays
  */
-public class Holiday
+public class Holidays
 {
-  private List<Day> holidays;
+  private List<Day> days;
 
   /**
    * Instantiates holidate object with current year.
    */
-  public Holiday() {
+  public Holidays() {
     init(Calendar.getInstance().get(Calendar.YEAR));
   }
 
@@ -43,7 +43,7 @@ public class Holiday
    * Instantiates the holidates object with the given year.
    * @param year the year
    */
-  public Holiday(int year) {
+  public Holidays(int year) {
     init(year);
   }
 
@@ -52,9 +52,9 @@ public class Holiday
    *
    * @return the list of holidays
    */
-  public List<Day> getHolidays()
+  public List<Day> getDays()
   {
-    return new ArrayList<>(holidays);
+    return new ArrayList<>(days);
   }
 
   /**
@@ -64,20 +64,20 @@ public class Holiday
    * @return true if date is a holiday
    */
   public boolean isHoliday(LocalDate date) {
-    Optional<Day> day = holidays.stream().filter(d -> d.getDate().compareTo(date) == 0).findFirst();
+    Optional<Day> day = days.stream().filter(d -> d.getDate().compareTo(date) == 0).findFirst();
     return day.isPresent();
   }
 
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    holidays.forEach(d -> builder.append(d).append("\n"));
+    days.forEach(d -> builder.append(d).append("\n"));
     return builder.toString();
   }
 
   private void init(int year)
   {
-    holidays = new ArrayList<>(Arrays.asList(
+    days = new ArrayList<>(Arrays.asList(
       new Day("Neujahr", 1, 1, year, DE),
       new Day("Heilige drei Könige", 6, 1, year, BW,BY,ST),
       new Day("Tag der Arbeit", 1, 5, year, DE),
@@ -92,16 +92,16 @@ public class Holiday
 
     LocalDate easter = getEaster(year);
 
-    holidays.add(new Day("Ostersonntag", easter.getDayOfMonth(), easter.getMonth().getValue(), year, BB));
-    holidays.add(getDayOfLocalDate("Karfreitag", easter, -2, DE));
-    holidays.add(getDayOfLocalDate("Ostermontag", easter, 1, DE));
-    holidays.add(getDayOfLocalDate("Christi Himmelfahrt", easter,39, DE));
-    holidays.add(getDayOfLocalDate("Pfingstsonntag", easter, 49, BB));
-    holidays.add(getDayOfLocalDate("Pfingstmontag", easter, 50, DE));
-    holidays.add(getDayOfLocalDate("Fronleichnam", easter,60, BW,BY,HE,NW,RP,SL,SN,TH));
-    holidays.add(new Day("Buß- und Bettag", getBussAndBettag(year), SN));
+    days.add(new Day("Ostersonntag", easter.getDayOfMonth(), easter.getMonth().getValue(), year, BB));
+    days.add(getDayOfLocalDate("Karfreitag", easter, -2, DE));
+    days.add(getDayOfLocalDate("Ostermontag", easter, 1, DE));
+    days.add(getDayOfLocalDate("Christi Himmelfahrt", easter,39, DE));
+    days.add(getDayOfLocalDate("Pfingstsonntag", easter, 49, BB));
+    days.add(getDayOfLocalDate("Pfingstmontag", easter, 50, DE));
+    days.add(getDayOfLocalDate("Fronleichnam", easter,60, BW,BY,HE,NW,RP,SL,SN,TH));
+    days.add(new Day("Buß- und Bettag", getBussAndBettag(year), SN));
 
-    holidays.sort(Day::compareTo);
+    days.sort(Day::compareTo);
   }
 
   private Day getDayOfLocalDate(String name, LocalDate localDate, int days, Bundesland ...land)
